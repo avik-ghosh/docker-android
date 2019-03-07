@@ -1,7 +1,7 @@
 #!/bin/bash
 # Bash version should >= 4 to be able to run this script.
 
-IMAGE="budtmo/docker-android"
+IMAGE="bankbazaar/docker-android"
 
 if [ -z "$1" ]; then
     read -p "Task (test|build|push|all) : " TASK
@@ -147,7 +147,7 @@ function build() {
             BROWSER=browser
         else
             #adb root cannot be run in IMG_TYPE=google_apis_playstore 
-            IMG_TYPE=google_apis
+            IMG_TYPE=google_apis_playstore
             BROWSER=chrome
         fi
         echo "[BUILD] IMAGE TYPE: $IMG_TYPE"
@@ -161,7 +161,7 @@ function build() {
         image_latest="$IMAGE-$processor-$v:latest"
         echo "[BUILD] Image name: $image_version and $image_latest"
         echo "[BUILD] Dockerfile: $FILE_NAME"
-        docker build -t $image_version --build-arg ANDROID_VERSION=$v --build-arg API_LEVEL=$level \
+        docker build --network=host -t $image_version --build-arg ANDROID_VERSION=$v --build-arg API_LEVEL=$level \
         --build-arg PROCESSOR=$processor --build-arg SYS_IMG=$sys_img --build-arg IMG_TYPE=$IMG_TYPE \
         --build-arg BROWSER=$BROWSER --build-arg CHROME_DRIVER=$chrome_driver \
         --build-arg APP_RELEASE_VERSION=$RELEASE -f $FILE_NAME .

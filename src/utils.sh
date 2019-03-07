@@ -14,14 +14,14 @@ function wait_emulator_to_be_ready () {
   done
 }
 
-function change_language_if_needed() {
-  if [ ! -z "${LANGUAGE// }" ] && [ ! -z "${COUNTRY// }" ]; then
-    wait_emulator_to_be_ready
-    echo "Languge will be changed to ${LANGUAGE}-${COUNTRY}"
-    adb root && adb shell "setprop persist.sys.language $LANGUAGE; setprop persist.sys.country $COUNTRY; stop; start" && adb unroot
-    echo "Language is changed!"
-  fi
-}
+#function change_language_if_needed() {
+#  if [ ! -z "${LANGUAGE// }" ] && [ ! -z "${COUNTRY// }" ]; then
+#    wait_emulator_to_be_ready
+#    echo "Languge will be changed to ${LANGUAGE}-${COUNTRY}"
+#    adb root && adb shell "setprop persist.sys.language $LANGUAGE; setprop persist.sys.country $COUNTRY; stop; start" && adb unroot
+#    echo "Language is changed!"
+#  fi
+#}
 
 function install_google_play () {
   wait_emulator_to_be_ready
@@ -38,7 +38,7 @@ function disable_animation () {
   adb shell "settings put global animator_duration_scale 0.0"
 }
 
-change_language_if_needed
+#change_language_if_needed
 sleep 1
-install_google_play
+#install_google_play
 disable_animation
